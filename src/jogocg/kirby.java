@@ -23,14 +23,16 @@ public class kirby {
     private int dy;
     private int x;
     private int y;
+    private int altura;
+    private int largura;
     private BufferedImage image;
 
     public kirby() {
         
-        initCraft();
+        initPlayer();
     }
     
-    private void initCraft() {
+    private void initPlayer() {
         try{
             image = ImageIO.read(new File("k.png"));
         
@@ -55,6 +57,14 @@ public class kirby {
         return y;
     }
 
+    public int getAltura() {
+        return altura;
+    }
+    
+    public int getLargura() {
+        return largura;
+    }
+    
     public BufferedImage getImage() {
         return image;
     }

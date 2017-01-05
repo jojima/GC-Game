@@ -24,10 +24,35 @@ class Surface extends JPanel {
     private TexturePaint bgtp;
     private kirby player = new kirby();
     private TexturePaint playertp;
-    
+    int fase_y_max = 430, fase_x_max = 635;
+    int fase_y_min = 110, fase_x_min = 220;
+    //vetor de obstaculos
+    private obstaculos obs = new obstaculos();
+    int num_obstaculos;
     public Surface() {
 
         loadImages();
+    }
+    
+    boolean Colision(){
+        //caso passe alguma borda ou chegue em algum obstaculo
+        if(  player.getY() + player.getAltura() <= fase_y_min 
+          || player.getX() <= fase_x_min 
+          || player.getY() >= fase_y_max 
+          || player.getX() + player.getLargura() >= fase_x_max)
+            return true;
+        //para cada obstaculo
+        if( (player.getY() + player.getAltura() <= obs.getY() && (player.getX()+player.getLargura() >= obs.getX() || player.getX() <= obs.getX() + obs.getLargura()))
+            || player.getX() <= obs.getX()+ obs.getLargura() && (player.getY()+player.getAltura() >= obs.getY() || player.getY() <= obs.getY() + obs.getAltura())
+            || player.getY() >= obs.getY() + obs.getAltura() && (player.getX()+player.getLargura() >= obs.getX() || player.getX() <= obs.getX() + obs.getLargura())
+            || player.getX() + player.getLargura() >= obs.getX() && (player.getY()+player.getAltura() >= obs.getY() || player.getY() <= obs.getY() + obs.getAltura()))
+            return true;
+        if( (player.getY() + player.getAltura() <= 110 && (player.getX()+player.getLargura() >= 220 || player.getX() <= 250))
+            || player.getX() <= 250 && (player.getY()+player.getAltura() >= 110 || player.getY() <= 325)
+            || player.getY() >= 325 && (player.getX()+player.getLargura() >= 220 || player.getX() <= 250)
+            || player.getX() + player.getLargura() >= 220 && (player.getY()+player.getAltura() >= 110 || player.getY() <= 325))
+            return true;
+        return false;
     }
     
     private void loadImages() {
@@ -96,3 +121,4 @@ public class JogoCG extends JFrame {
         });
     }
 }
+
