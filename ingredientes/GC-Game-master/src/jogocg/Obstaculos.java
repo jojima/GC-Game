@@ -19,19 +19,39 @@ import javax.swing.ImageIcon;
  * @author Yuela
  */
 public class Obstaculos {
-    private ImageIcon[] icones = new ImageIcon[6];
-    
+    private int x;
+    private int y;
+    private int altura;
+    private int largura;
+    private BufferedImage image;
 
     public Obstaculos() {
-        icones[0] = new ImageIcon("ingredientes/arroz.png");
-        icones[1] = new ImageIcon("ingredientes/boi.png");
-        icones[2] = new ImageIcon("ingredientes/cebola.png");
-        icones[3] = new ImageIcon("ingredientes/ovo.png");
-        icones[4] = new ImageIcon("ingredientes/pao.png");
-        icones[5] = new ImageIcon("ingredientes/peixe.png");
-     
+        
+        initBarrier();
     }
-    public ImageIcon[] getIcones(){
-        return icones;
+    
+    private void initBarrier() {
+        x = 0;
+        y = 0;        
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getAltura() {
+        return altura;
+    }
+    
+    public int getLargura() {
+        return largura;
+    }
+    
+    public BufferedImage getImage() {
+        return image;
     }
 }

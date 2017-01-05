@@ -14,10 +14,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import jogoCG.panela;
+import java.util.function.IntPredicate;
 /**
  *
  * @author Yuela
@@ -30,9 +33,14 @@ public class kirby extends JPanel implements ActionListener {
     public ImageIcon[] images,imagesF,imagesC,imagesD,imagesE;
     private int animationDelay = 10,currentImage = 0,totalImages = 3;
     private Timer animationTimer;
-
+    private int image_index;
+    private static String img_name[] = {"default.png", "arroz.png", "boi.png", "cebula.png", "cogumelo.png", "farinha.png", "frango.png","ovo.png", "pao.png", "peixe.png", "porco.png", "tomate.png"};
+    public panela p1 = new panela();
+    public panela p2 = new panela();
+    public panela p3 = new panela();
+    int score = 0;
+    
     public kirby() {
-        
         initCraft();
     }
     
@@ -62,7 +70,8 @@ public class kirby extends JPanel implements ActionListener {
         images = imagesF;
         
         x = 450;
-        y = 350;        
+        y = 350;     
+        image_index = 6; //default sem nada
     }
     
     public int getLargura() {
@@ -81,6 +90,20 @@ public class kirby extends JPanel implements ActionListener {
         currentImage = x;
     }
     
+    public String getItemInventory(){
+        return img_name[image_index];
+    }
+    
+    public void setIndex(int i)
+    {
+        image_index = i;
+    }
+    
+    public int getIndex()
+    {
+        return image_index;
+    }
+    
     public void move() {
         x += dx;
         y += dy;
@@ -88,6 +111,14 @@ public class kirby extends JPanel implements ActionListener {
     /*
 
 */
+    public int getScore() {
+        return score;
+    }
+    
+    public void setScore(int value) {
+        score += value;
+    }
+    
     public int getX() {
         return x;
     }
@@ -108,7 +139,7 @@ public class kirby extends JPanel implements ActionListener {
         return images;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e, int i) {
 
         int key = e.getKeyCode();
 
@@ -130,6 +161,9 @@ public class kirby extends JPanel implements ActionListener {
         if (key == KeyEvent.VK_DOWN) {
             dy = 4;
             images = imagesF;
+        }
+        if (key == KeyEvent.VK_SPACE) {
+            trocaIngrediente(i, 0);
         }
        // startAnimation();
         move();
@@ -160,5 +194,94 @@ public class kirby extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
+    }
+
+    private void trocaIngrediente(int i, int param) {
+        if (i < 10)//esteira
+        {
+            if(i != 6)
+                this.setIndex(i);
+        }
+        else if(this.getIndex() != 6)
+        {
+            if(i == 11)
+            {
+                p1.colocaIngrediente(this.getIndex());
+                this.setIndex(6);
+                if(p1.getNIngredientes() == 3)//panela cheia
+                {
+                    int aux = 0;
+                    boolean contains;
+                    //ganha ou perde score
+                    for(int j = 0; j < 3;j++)
+                    {
+                        if(p1.getIngrediente(j) == p1.recipe.getI1())
+                            aux++;
+                        if(p1.getIngrediente(j) == p1.recipe.getI2())
+                            aux++;
+                        if(p1.getIngrediente(j) == p1.recipe.getI3())
+                            aux++;
+                    }
+                    if(aux == 3)
+                        this.setScore(1000);
+                    else
+                        this.setScore(((aux-3)*500));
+                    //esvazia a panela
+                    p1.zeraCalderao();
+                }
+            }
+            if(i == 12)
+            {
+                p2.colocaIngrediente(this.getIndex());
+                this.setIndex(6);
+                if(p2.getNIngredientes() == 3)//panela cheia
+                {
+                    int aux = 0;
+                    boolean contains;
+                    //ganha ou perde score
+                    for(int j = 0; j < 3;j++)
+                    {
+                        if(p2.getIngrediente(j) == p2.recipe.getI1())
+                            aux++;
+                        if(p2.getIngrediente(j) == p2.recipe.getI2())
+                            aux++;
+                        if(p2.getIngrediente(j) == p2.recipe.getI3())
+                            aux++;
+                    }
+                    if(aux == 3)
+                        this.setScore(1000);
+                    else
+                        this.setScore(((aux-3)*500));
+                    //esvazia a panela
+                    p2.zeraCalderao();
+                }
+            }
+            if(i == 13)
+            {
+                p3.colocaIngrediente(this.getIndex());
+                this.setIndex(6);
+                if(p3.getNIngredientes() == 3)//panela cheia
+                {
+                    int aux = 0;
+                    boolean contains;
+                    //ganha ou perde score
+                    for(int j = 0; j < 3;j++)
+                    {
+                        if(p3.getIngrediente(j) == p3.recipe.getI1())
+                            aux++;
+                        if(p3.getIngrediente(j) == p3.recipe.getI2())
+                            aux++;
+                        if(p3.getIngrediente(j) == p3.recipe.getI3())
+                            aux++;
+                    }
+                    if(aux == 3)
+                        this.setScore(1000);
+                    else
+                        this.setScore(((aux-3)*500));
+                    //esvazia a panela
+                    p3.zeraCalderao();
+                }
+            }
+        }
     }
 }
