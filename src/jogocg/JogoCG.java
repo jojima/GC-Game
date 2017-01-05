@@ -7,6 +7,9 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -14,7 +17,7 @@ import jogocg.kirby;
 
 
 class Objects extends JPanel implements ActionListener, KeyListener{
-    private Timer animationTimer;
+    private boolean animation = false;
     private Image background = new ImageIcon("background.png").getImage();
     private kirby player = new kirby();
     int fase_y_max = 432, fase_x_max = 636;
@@ -70,16 +73,11 @@ class Objects extends JPanel implements ActionListener, KeyListener{
         repaint();
     }
     public void startAnimation() {
-      if (animationTimer == null) {
-        player.setCurrentImage(0);
-        animationTimer = new Timer(0, this);
-        animationTimer.start();
-      } else if (!animationTimer.isRunning())
-        animationTimer.restart();
+      animation = true;
     }
 
     public void stopAnimation() {
-      animationTimer.stop();
+      animation = false;
     }
     
     
@@ -87,11 +85,18 @@ class Objects extends JPanel implements ActionListener, KeyListener{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Cozinha(g);
-        if (player.getImage()[player.getCurrentImage()].getImageLoadStatus() == MediaTracker.COMPLETE) {
+        if (player.getImage()[player.getCurrentImage()].getImageLoadStatus() == MediaTracker.COMPLETE && animation == true) {
             player.getImage()[player.getCurrentImage()].paintIcon(this, g, player.getX(), player.getY());
             player.setCurrentImage((player.getCurrentImage() + 1) % 3);
+            try {
+                TimeUnit.MILLISECONDS.sleep(60);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Objects.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         }
+        else
+            player.getImage()[1].paintIcon(this, g, player.getX(), player.getY());
     }
 
     @Override
