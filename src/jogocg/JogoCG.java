@@ -28,7 +28,7 @@ class Objects extends JPanel implements ActionListener, KeyListener{
     int fase_y_max = 432, fase_x_max = 586;
     int fase_y_min = 88, fase_x_min = 204;
     //vetor de obstaculos
-    private Obstaculos obs = new Obstaculos();
+    private Ingredientes obs = new Ingredientes();
     Random rand = new Random();
     private Timer relogio;
     private int tempoRestante = 180;
@@ -61,13 +61,13 @@ class Objects extends JPanel implements ActionListener, KeyListener{
         relogio.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 // Printa pontos
-                System.out.println(tempoRestante--);
+                tempoRestante--;
                 if (tempoRestante< 0)
                     relogio.cancel();
             }
         }, 0, 1000); 
         
-        Obstaculos obs = new Obstaculos();
+        Ingredientes obs = new Ingredientes();
         int randomNum = rand.nextInt(6 - 0 + 1) + 0; 
         esteira[0] = randomNum;
         for(int i = 1; i <12;i++)
@@ -111,6 +111,7 @@ class Objects extends JPanel implements ActionListener, KeyListener{
         if(tempoRestante > 0){
             super.paintComponent(g);
             Cozinha(g);
+            // Animacao do player
             if (player.getImage()[player.getCurrentImage()].getImageLoadStatus() == MediaTracker.COMPLETE && animation == true) {
                 player.getImage()[player.getCurrentImage()].paintIcon(this, g, player.getX(), player.getY());
                 player.setCurrentImage((player.getCurrentImage() + 1) % 3);
@@ -183,6 +184,7 @@ class Objects extends JPanel implements ActionListener, KeyListener{
         int key = e.getKeyCode();
         int aux = 6;
         
+        // Verifica posicao na esteira
         if(player.getX() > 200 && player.getX() < 215 && key == KeyEvent.VK_SPACE)
         {    
             if(player.getY() > 305 && player.getY() < 335 ){
@@ -201,7 +203,8 @@ class Objects extends JPanel implements ActionListener, KeyListener{
                 player.keyPressed(e,aux);
             }
         }      
-
+        
+        // Verifica posicao panela
         if(player.getX() > 515 && player.getX() < 545 && key == KeyEvent.VK_SPACE)
         {    
             if(player.getY() > 110 && player.getY() < 170 )
@@ -229,7 +232,6 @@ class Objects extends JPanel implements ActionListener, KeyListener{
         if(Colision() == 3)
             player.setX(1);
         
-        System.out.print(Colision()+ " ("+player.getY()+", "+player.getX()+") "+"\n");
         startAnimation();
     }
 
@@ -246,7 +248,7 @@ public class JogoCG extends JFrame {
 
         add(new Objects());
 
-        setTitle("Jogo de CG MONSTRAO");
+        setTitle("Trabalho 1 - CG");
         setSize(820, 520);
         setLocationRelativeTo(null);        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

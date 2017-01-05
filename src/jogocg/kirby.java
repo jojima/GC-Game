@@ -1,40 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jogocg;
-
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.IntStream;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 import jogoCG.panela;
-import java.util.function.IntPredicate;
-/**
- *
- * @author Yuela
- */
+
 public class kirby extends JPanel implements ActionListener {
     private int dx;
     private int dy;
     private int x;
     private int y;
     public ImageIcon[] images,imagesF,imagesC,imagesD,imagesE;
-    private int animationDelay = 10,currentImage = 0,totalImages = 3;
-    private Timer animationTimer;
+    private int currentImage = 0,totalImages = 3;
     private int image_index;
-    private static String img_name[] = {"default.png", "arroz.png", "boi.png", "cebula.png", "cogumelo.png", "farinha.png", "frango.png","ovo.png", "pao.png", "peixe.png", "porco.png", "tomate.png"};
     public panela p1 = new panela();
     public panela p2 = new panela();
     public panela p3 = new panela();
@@ -89,11 +68,7 @@ public class kirby extends JPanel implements ActionListener {
     public void setCurrentImage(int x){
         currentImage = x;
     }
-    
-    public String getItemInventory(){
-        return img_name[image_index];
-    }
-    
+     
     public void setIndex(int i)
     {
         image_index = i;
@@ -165,7 +140,6 @@ public class kirby extends JPanel implements ActionListener {
         if (key == KeyEvent.VK_SPACE) {
             trocaIngrediente(i, 0);
         }
-       // startAnimation();
         move();
     }
     
@@ -188,7 +162,6 @@ public class kirby extends JPanel implements ActionListener {
         if (key == KeyEvent.VK_DOWN) {
             dy = 0;
         }
-     //   stopAnimation();
     }
 
     @Override

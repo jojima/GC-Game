@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package jogoCG;
 import jogoCG.receita;
-/**
- *
- * @author Yuela
- */
+
 public class panela {
     private int y;
     private int altura;
@@ -55,10 +48,6 @@ public class panela {
     {
         ingredientes[nIngredientes] = ingrediente;
         nIngredientes++;
-    }
-    public void cozinha(int ingrediente)
-    {
-        
     }
     
     public void zeraCalderao ()
