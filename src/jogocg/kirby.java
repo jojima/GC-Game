@@ -61,8 +61,8 @@ public class kirby extends JPanel implements ActionListener {
         images = new ImageIcon[totalImages];
         images = imagesF;
         
-        x = 400;
-        y = 300;        
+        x = 450;
+        y = 350;        
     }
     
     public int getLargura() {
@@ -95,6 +95,14 @@ public class kirby extends JPanel implements ActionListener {
     public int getY() {
         return y;
     }
+    
+    public void setX(int newX){
+        this.x += newX;
+    }
+    
+    public void setY(int newY){
+        this.y += newY;
+    }
 
     public ImageIcon[] getImage() {
         return images;
@@ -126,7 +134,7 @@ public class kirby extends JPanel implements ActionListener {
        // startAnimation();
         move();
     }
-
+    
     public void keyReleased(KeyEvent e) {
         
         int key = e.getKeyCode();

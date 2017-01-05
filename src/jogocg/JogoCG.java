@@ -17,8 +17,8 @@ class Objects extends JPanel implements ActionListener, KeyListener{
     private Timer animationTimer;
     private Image background = new ImageIcon("background.png").getImage();
     private kirby player = new kirby();
-    int fase_y_max = 430, fase_x_max = 635;
-    int fase_y_min = 110, fase_x_min = 220;
+    int fase_y_max = 432, fase_x_max = 636;
+    int fase_y_min = 88, fase_x_min = 204;
     //vetor de obstaculos
     private Obstaculos obs = new Obstaculos();
     int num_obstaculos;
@@ -28,13 +28,23 @@ class Objects extends JPanel implements ActionListener, KeyListener{
         setFocusable(true);
     }
     
-     boolean Colision(){
+     int Colision(){
         //caso passe alguma borda ou chegue em algum obstaculo
-        if(  player.getY() + player.getAltura() <= fase_y_min 
-          || player.getX() <= fase_x_min 
-          || player.getY() >= fase_y_max 
-          || player.getX() + player.getLargura() >= fase_x_max)
-            return true;
+        if(player.getY() + player.getAltura() >= fase_y_max) // bateu na parede de baixo
+            return 0;
+        if(player.getY() <= fase_y_min) // bateu na parede de cima
+            return 1;
+        if(player.getX() + player.getLargura() >= fase_x_max) // bateu na parece da direita
+            return 2;
+        if(player.getX() <= fase_x_min) // bateu na parede da esquerda
+            return 3;
+        /*
+        if(player.getY() + player.getAltura() >= 263 && player.getY() <= 319) // bateu na parede de baixo
+            return 5;
+        if(player.getX() + player.getLargura() >= 319 && player.getX() <= 394) // bateu na parece da direita
+            return 6;
+        */
+        
         //para cada obstaculo
         /*
         if( (player.getY() + player.getAltura() <= obs.getY() && (player.getX()+player.getLargura() >= obs.getX() || player.getX() <= obs.getX() + obs.getLargura()))
@@ -42,12 +52,15 @@ class Objects extends JPanel implements ActionListener, KeyListener{
             || player.getY() >= obs.getY() + obs.getAltura() && (player.getX()+player.getLargura() >= obs.getX() || player.getX() <= obs.getX() + obs.getLargura())
             || player.getX() + player.getLargura() >= obs.getX() && (player.getY()+player.getAltura() >= obs.getY() || player.getY() <= obs.getY() + obs.getAltura()))
             return true; */
+        
+        /*
         if( (player.getY() + player.getAltura() <= 110 && (player.getX()+player.getLargura() >= 220 || player.getX() <= 250))
             || player.getX() <= 250 && (player.getY()+player.getAltura() >= 110 || player.getY() <= 325)
             || player.getY() >= 325 && (player.getX()+player.getLargura() >= 220 || player.getX() <= 250)
             || player.getX() + player.getLargura() >= 220 && (player.getY()+player.getAltura() >= 110 || player.getY() <= 325))
             return true;
-        return false;
+        */
+        return 4;
     }
     
     private void Cozinha(Graphics g) {
@@ -77,6 +90,7 @@ class Objects extends JPanel implements ActionListener, KeyListener{
         if (player.getImage()[player.getCurrentImage()].getImageLoadStatus() == MediaTracker.COMPLETE) {
             player.getImage()[player.getCurrentImage()].paintIcon(this, g, player.getX(), player.getY());
             player.setCurrentImage((player.getCurrentImage() + 1) % 3);
+            
         }
     }
 
@@ -92,10 +106,37 @@ class Objects extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(Colision())
+        int key = e.getKeyCode();
+        if(Colision() == 4)
             player.keyPressed(e);
         
-        System.out.print("olar");
+        if(Colision() == 0)
+            player.setY(-1);
+
+        if(Colision() == 1)
+            player.setY(1);     
+
+        if(Colision() == 2)
+            player.setX(-1);
+
+        if(Colision() == 3)
+            player.setX(1);
+        
+        /*
+        if(Colision() == 5)
+            if(key == KeyEvent.VK_DOWN)
+                player.setY(-1);
+            else
+                player.setY(1);
+        
+        if(Colision() == 6)
+            if(key == KeyEvent.VK_LEFT)
+                player.setX(1);
+            else
+                player.setX(-1);
+        */
+        
+        System.out.print(Colision()+ " ("+player.getY()+", "+player.getX()+") "+"\n");
         startAnimation();
     }
 
